@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Port Macquarie Business Directory</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --surface: #f8f8f6;
+    --border: #e4e4e0;
+    --text: #1a1a18;
+    --muted: #6b6b68;
+    --accent: #2563a8;
+    --accent-light: #eff4fc;
+    --radius: 6px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+  }
+
+  /* ── Layout ── */
+  .page-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--text);
+    color: #fff;
+    padding: 2.5rem 1.25rem 2rem;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  header p {
+    margin-top: 0.4rem;
+    color: #aaa;
+    font-size: 0.88rem;
+  }
+
+  /* ── Jump nav ── */
+  .jump-nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .jump-nav summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--accent);
+    user-select: none;
+    list-style: none;
+  }
+  .jump-nav summary::after {
+    content: " ▾";
+  }
+  .jump-nav[open] summary::after {
+    content: " ▴";
+  }
+  .jump-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.6rem;
+    margin-top: 0.6rem;
+    padding: 0;
+    list-style: none;
+  }
+  .jump-nav a {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    background: var(--accent-light);
+    border-radius: 20px;
+    padding: 0.2rem 0.65rem;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .jump-nav a:hover { text-decoration: underline; }
+
+  /* ── Main content ── */
+  main { padding: 2rem 0 4rem; }
+
+  section { margin-bottom: 3rem; }
+
+  .section-anchor { display: block; height: 0; }
+
+  section h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.9rem;
+  }
+
+  /* ── Tables ── */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead th {
+    background: var(--surface);
+    text-align: left;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+    color: var(--muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  tbody tr:nth-child(even) { background: var(--surface); }
+  tbody td {
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody td:first-child { font-weight: 500; }
+  .muted { color: var(--muted); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  /* ── Back to top ── */
+  #btt {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--text);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    z-index: 100;
+  }
+  #btt:hover { opacity: 1; }
+  #btt.visible { display: flex; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.3rem; }
+    section h2 { font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="page-wrap">
+    <h1>Port Macquarie Business Directory</h1>
+    <p>Businesses operating in Port Macquarie NSW 2444 &mdash; grouped by industry &middot; Updated June 2026</p>
+  </div>
+</header>
+
+<details class="jump-nav">
+  <summary>Jump to category</summary>
+  <div class="page-wrap">
+    <ul>
+      <li><a href="#accommodation">Accommodation</a></li>
+      <li><a href="#agriculture">Agriculture &amp; Fishing</a></li>
+      <li><a href="#automotive">Automotive</a></li>
+      <li><a href="#banking">Banking &amp; Finance</a></li>
+      <li><a href="#cleaning">Cleaning &amp; Property</a></li>
+      <li><a href="#community">Community &amp; Social</a></li>
+      <li><a href="#construction">Construction &amp; Trades</a></li>
+      <li><a href="#creative">Creative &amp; Media</a></li>
+      <li><a href="#education">Education &amp; Training</a></li>
+      <li><a href="#utilities">Electricity, Gas &amp; Waste</a></li>
+      <li><a href="#fitness">Fitness &amp; Recreation</a></li>
+      <li><a href="#cafes">Food – Cafes</a></li>
+      <li><a href="#restaurants">Food – Restaurants</a></li>
+      <li><a href="#takeaway">Food – Takeaway</a></li>
+      <li><a href="#hair">Hair &amp; Beauty</a></li>
+      <li><a href="#health">Health &amp; Wellbeing</a></li>
+      <li><a href="#home">Home, Garden &amp; Hardware</a></li>
+      <li><a href="#hotels">Hotels, Clubs &amp; Bars</a></li>
+      <li><a href="#it">IT &amp; Telecoms</a></li>
+      <li><a href="#manufacturing">Manufacturing</a></li>
+      <li><a href="#pets">Pet Supplies</a></li>
+      <li><a href="#professional">Professional Services</a></li>
+      <li><a href="#property">Property &amp; Real Estate</a></li>
+      <li><a href="#retail-fashion">Retail – Clothing</a></li>
+      <li><a href="#retail-general">Retail – General</a></li>
+      <li><a href="#other">Other Services</a></li>
+      <li><a href="#rec-indoor">Recreation – Indoor</a></li>
+      <li><a href="#rec-outdoor">Recreation – Outdoor</a></li>
+      <li><a href="#rec-arts">Arts &amp; Culture</a></li>
+      <li><a href="#rec-dance">Dance &amp; Performing Arts</a></li>
+      <li><a href="#rec-sport">Sport &amp; Fitness Clubs</a></li>
+      <li><a href="#transport">Transport &amp; Logistics</a></li>
+    </ul>
+  </div>
+</details>
+
+<main>
+<div class="page-wrap">
+
+<!-- ACCOMMODATION -->
+<section id="accommodation">
+  <h2>Accommodation</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Camp Jordans</td><td class="muted">—</td></tr>
+      <tr><td>Comfort Resort Waters Edge</td><td class="muted">—</td></tr>
+      <tr><td>Edgewater Holiday Park</td><td class="muted">—</td></tr>
+      <tr><td>El Paso Motor Inn</td><td class="muted">—</td></tr>
+      <tr><td>Flynns Beach Caravan Park</td><td class="muted">—</td></tr>
+      <tr><td>Macquarie Waters Boutique Apartment Hotel</td><td class="muted">—</td></tr>
+      <tr><td>Marina Holiday Park</td><td class="muted">—</td></tr>
+      <tr><td>Mercure Centro Hotel</td><td class="muted">—</td></tr>
+      <tr><td>NRMA Port Macquarie Breakwall Holiday Park</td><td>Harbour Drive</td></tr>
+      <tr><td>Port Macquarie Rental Village</td><td class="muted">—</td></tr>
+      <tr><td>Port Pacific Resort</td><td class="muted">—</td></tr>
+      <tr><td>Riverlodge Tourist Village</td><td class="muted">—</td></tr>
+      <tr><td>Rydges Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Sails Port Macquarie – by Rydges</td><td class="muted">—</td></tr>
+      <tr><td>Stoney Park</td><td class="muted">—</td></tr>
+      <tr><td>The Mid Pacific</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- AGRICULTURE -->
+<section id="agriculture">
+  <h2>Agriculture, Forestry &amp; Fishing</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Cassegrain Wines</td><td class="muted">—</td></tr>
+      <tr><td>Costa Avocado</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- AUTOMOTIVE -->
+<section id="automotive">
+  <h2>Automotive</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>A1 Auto Parts Wauchope</td><td class="muted">—</td></tr>
+      <tr><td>All Models Auto Electrical</td><td>10 Milton Cct</td></tr>
+      <tr><td>All Models Service Centre</td><td class="muted">—</td></tr>
+      <tr><td>Beaurepaires Port Macquarie</td><td>100 Hastings River Drive</td></tr>
+      <tr><td>Fernhill Tyre &amp; Automotive</td><td>46 Acacia Ave</td></tr>
+      <tr><td>Hastings River Brake &amp; Exhaust</td><td>Unit 1/10 Denham St</td></tr>
+      <tr><td>JAX Tyres Port Macquarie</td><td>3/77 Hastings River Dr</td></tr>
+      <tr><td>John Oxley Motors</td><td class="muted">—</td></tr>
+      <tr><td>Maca's Mechanical Repairs</td><td>195 Hastings River Dr</td></tr>
+      <tr><td>Macquarie Brake &amp; Automotive Services</td><td>Cnr Blackbutt &amp; Bolwarra Rds</td></tr>
+      <tr><td>Repco Authorised Service</td><td>7 Jambali Rd / 93 Hastings River Dr</td></tr>
+      <tr><td>Tyrepower Port Macquarie</td><td>23 Jindalee Rd</td></tr>
+      <tr><td>Warren Plowright Toyota</td><td class="muted">—</td></tr>
+      <tr><td>Watson's Caravans Port Macquarie</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- BANKING -->
+<section id="banking">
+  <h2>Banking &amp; Financial Services</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Aussie Port Macquarie (Mortgage Broker)</td><td class="muted">—</td></tr>
+      <tr><td>BCU Bank</td><td>Shop 25/40 Horton St (Port Central)</td></tr>
+      <tr><td>Bell Partners</td><td class="muted">—</td></tr>
+      <tr><td>Bendigo Bank</td><td class="muted">—</td></tr>
+      <tr><td>Berry Financial Services</td><td class="muted">—</td></tr>
+      <tr><td>Better Insurance Cover</td><td class="muted">—</td></tr>
+      <tr><td>Coastline Bank</td><td>16 Park St</td></tr>
+      <tr><td>Commonwealth Bank</td><td class="muted">—</td></tr>
+      <tr><td>Compass Advice Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Greater Bank</td><td class="muted">—</td></tr>
+      <tr><td>Holiday Coast Credit Union</td><td class="muted">—</td></tr>
+      <tr><td>Kelly Carter, Mortgage Choice</td><td class="muted">—</td></tr>
+      <tr><td>Macquarie Business Accountants</td><td class="muted">—</td></tr>
+      <tr><td>Morgan Financial</td><td class="muted">—</td></tr>
+      <tr><td>National Australia Bank</td><td class="muted">—</td></tr>
+      <tr><td>Oxley Insurance Brokers</td><td class="muted">—</td></tr>
+      <tr><td>Persuasion Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Police Credit Union</td><td class="muted">—</td></tr>
+      <tr><td>Regional Australia Bank</td><td class="muted">—</td></tr>
+      <tr><td>Shaw Gidley</td><td class="muted">—</td></tr>
+      <tr><td>Smarter Financial &amp; Insurance Solutions</td><td class="muted">—</td></tr>
+      <tr><td>Unite Advisory Pty Ltd</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CLEANING -->
+<section id="cleaning">
+  <h2>Cleaning &amp; Property Maintenance</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Mid North Coast Hydro Clean</td><td class="muted">—</td></tr>
+      <tr><td>Signature Landscapes</td><td class="muted">—</td></tr>
+      <tr><td>Wonder Woman Cleaning Services</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <h2>Community &amp; Social Services</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Caring Care</td><td class="muted">—</td></tr>
+      <tr><td>Lifeline Mid Coast</td><td class="muted">—</td></tr>
+      <tr><td>Liberty Domestic and Family Violence Specialists</td><td class="muted">—</td></tr>
+      <tr><td>Ostara Australia</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie–Hastings Council</td><td>17 Burrawan St</td></tr>
+      <tr><td>Superior Personalised Assistance Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>The Neutral Corner Consulting</td><td class="muted">—</td></tr>
+      <tr><td>Westpac Rescue Helicopter Service</td><td class="muted">—</td></tr>
+      <tr><td>Willing &amp; Able Foundation Ltd</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CONSTRUCTION -->
+<section id="construction">
+  <h2>Construction &amp; Trades</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Commercial Project Group Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Edge Construction (NSW)</td><td class="muted">—</td></tr>
+      <tr><td>Eire Constructions Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Enjoy Plumbing</td><td class="muted">—</td></tr>
+      <tr><td>Fastplast Building Supplies</td><td class="muted">—</td></tr>
+      <tr><td>Fresh Finishes</td><td class="muted">—</td></tr>
+      <tr><td>Hotondo Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>J Newton Civil Construction Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Mid Coast Glass Fencing</td><td class="muted">—</td></tr>
+      <tr><td>Port Plumbing</td><td>3 Jindalee Rd</td></tr>
+      <tr><td>Prestige Electrical</td><td class="muted">—</td></tr>
+      <tr><td>Pycon Homes &amp; Constructions Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Slocombe Building</td><td class="muted">—</td></tr>
+      <tr><td>Sunny's Skips</td><td class="muted">—</td></tr>
+      <tr><td>WickyLeaks Plumbing</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CREATIVE -->
+<section id="creative">
+  <h2>Creative Services, Media &amp; Communications</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Adams Marketing</td><td class="muted">—</td></tr>
+      <tr><td>Atlantis Creative</td><td class="muted">—</td></tr>
+      <tr><td>CRUZE FM 93.5</td><td class="muted">—</td></tr>
+      <tr><td>Focus Magazine</td><td class="muted">—</td></tr>
+      <tr><td>Gem Socials</td><td class="muted">—</td></tr>
+      <tr><td>Lucy Humphries Photography</td><td class="muted">—</td></tr>
+      <tr><td>Michelle Parker Consulting</td><td class="muted">—</td></tr>
+      <tr><td>My Video Producer</td><td class="muted">—</td></tr>
+      <tr><td>Orbit Marketing</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie News / Port News</td><td class="muted">—</td></tr>
+      <tr><td>SCA (Southern Cross Austereo)</td><td class="muted">—</td></tr>
+      <tr><td>Seven Network</td><td class="muted">—</td></tr>
+      <tr><td>Sign City Plus</td><td class="muted">—</td></tr>
+      <tr><td>Snap Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>The CC Collective</td><td class="muted">—</td></tr>
+      <tr><td>The Social Coach With Bron Watson</td><td class="muted">—</td></tr>
+      <tr><td>WIN Television</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <h2>Education &amp; Training</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Charles Sturt University</td><td class="muted">—</td></tr>
+      <tr><td>Early Connections Port Macquarie/Hastings</td><td class="muted">—</td></tr>
+      <tr><td>Enterprise &amp; Training Company</td><td class="muted">—</td></tr>
+      <tr><td>Mid Coast Connect</td><td class="muted">—</td></tr>
+      <tr><td>Mid North Coast Community College</td><td class="muted">—</td></tr>
+      <tr><td>Newman Senior Technical College</td><td>Boundary St</td></tr>
+      <tr><td>Port Macquarie Adventist School</td><td>500 Ocean Drive</td></tr>
+      <tr><td>SALT Training Academy</td><td class="muted">—</td></tr>
+      <tr><td>St Agnes' Primary School</td><td>10 Boronia St</td></tr>
+      <tr><td>St Columba Anglican School</td><td>43–55 Major Innes Rd</td></tr>
+      <tr><td>St Joseph's Primary School</td><td>Warlters St</td></tr>
+      <tr><td>St Joseph's Regional High School</td><td>College Drive</td></tr>
+      <tr><td>St Paul's High School</td><td>Ocean Drive</td></tr>
+      <tr><td>St Peter's Primary School</td><td>151 Greenmeadows Drive</td></tr>
+      <tr><td>TAFE NSW</td><td class="muted">—</td></tr>
+      <tr><td>Tursa Employment &amp; Training</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- UTILITIES -->
+<section id="utilities">
+  <h2>Electricity, Gas, Water &amp; Waste</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>JR Richards Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>NIS Power &amp; Communications</td><td class="muted">—</td></tr>
+      <tr><td>Remondis Pty Ltd</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- FITNESS -->
+<section id="fitness">
+  <h2>Fitness &amp; Recreation</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Anytime Fitness</td><td class="muted">—</td></tr>
+      <tr><td>Challenge Fitness</td><td class="muted">—</td></tr>
+      <tr><td>Genesis Fitness</td><td class="muted">—</td></tr>
+      <tr><td>PCYC Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie Golf Club</td><td class="muted">—</td></tr>
+      <tr><td>World Gym Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Your Life 24 Hour Fitness Centre</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CAFES -->
+<section id="cafes">
+  <h2>Food &amp; Drink – Cafes</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Agostina</td><td class="muted">—</td></tr>
+      <tr><td>Baked Culture</td><td class="muted">—</td></tr>
+      <tr><td>Crossroads Café</td><td class="muted">—</td></tr>
+      <tr><td>Frankies Café</td><td>Clarence St</td></tr>
+      <tr><td>Little Shack</td><td class="muted">—</td></tr>
+      <tr><td>Milkbar Townbeach</td><td class="muted">—</td></tr>
+      <tr><td>Salty Crew Kiosk</td><td class="muted">—</td></tr>
+      <tr><td>Seasalt Cafe &amp; Restaurant</td><td class="muted">—</td></tr>
+      <tr><td>Social Grounds</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- RESTAURANTS -->
+<section id="restaurants">
+  <h2>Food &amp; Drink – Restaurants</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Beau Thai Restaurant</td><td class="muted">—</td></tr>
+      <tr><td>Bills Fishhouse &amp; Bar</td><td>2/18–20 Clarence St</td></tr>
+      <tr><td>Blue Water Bar &amp; Restaurant</td><td class="muted">—</td></tr>
+      <tr><td>Char Bar Catering and The Chip Shop</td><td class="muted">—</td></tr>
+      <tr><td>Charley Bros Wines (restaurant)</td><td class="muted">—</td></tr>
+      <tr><td>Chop &amp; Chill</td><td class="muted">—</td></tr>
+      <tr><td>Ichi (Japanese)</td><td>Near Fishermans Wharf</td></tr>
+      <tr><td>Maki Moto Japanese Restaurant</td><td class="muted">—</td></tr>
+      <tr><td>McDonald's Family Restaurants</td><td class="muted">—</td></tr>
+      <tr><td>Scampis Seafood Bar &amp; Grill</td><td class="muted">—</td></tr>
+      <tr><td>Spicy Yahmor Thai Restaurant</td><td class="muted">—</td></tr>
+      <tr><td>The Boathouse</td><td class="muted">—</td></tr>
+      <tr><td>The Stunned Mullet</td><td>24 William St</td></tr>
+      <tr><td>Whalebone Wharf Seafood Restaurant</td><td>269 Hastings River Dr</td></tr>
+      <tr><td>Zebu Bar &amp; Restaurant</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- TAKEAWAY -->
+<section id="takeaway">
+  <h2>Food &amp; Drink – Takeaway &amp; Fast Food</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Baby Chopsticks (Chinese)</td><td>Port Central, Horton St</td></tr>
+      <tr><td>Boost Juice Port Central</td><td class="muted">—</td></tr>
+      <tr><td>Garrison Charcoal Chicken</td><td class="muted">—</td></tr>
+      <tr><td>Indian Grocery Port Macquarie</td><td>35 Munster St</td></tr>
+      <tr><td>Kebab Masters</td><td>Shop 1/22 Horton St</td></tr>
+      <tr><td>Lighthouse Beach Takeaway</td><td>Shop 1/42 Watonga St</td></tr>
+      <tr><td>Off the Hook Fish &amp; Chips</td><td>Shop 5/2 Horton St</td></tr>
+      <tr><td>Port Macquarie Kebab &amp; Pizza</td><td>81 Horton St</td></tr>
+      <tr><td>Red Rooster</td><td class="muted">—</td></tr>
+      <tr><td>Snax Eatery &amp; Take Away</td><td>95 Horton St</td></tr>
+      <tr><td>The Fishing Basket</td><td class="muted">—</td></tr>
+      <tr><td>Wall of China Restaurant</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- HAIR -->
+<section id="hair">
+  <h2>Hair &amp; Beauty</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Andy Pandy Hair Candy</td><td>163–165 Gordon St</td></tr>
+      <tr><td>Aqua Vitae Day Spa</td><td>158 Gordon St</td></tr>
+      <tr><td>Barbers on Murray</td><td>Shop 1/3 Murray St</td></tr>
+      <tr><td>Broken Hearts Barbershop</td><td>1/122 William St</td></tr>
+      <tr><td>Brows by Willow</td><td class="muted">—</td></tr>
+      <tr><td>Country Nails</td><td class="muted">—</td></tr>
+      <tr><td>Ella Baché Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>EmBelish Hair</td><td>2/6–14 Clarence St</td></tr>
+      <tr><td>Evelina Kemp Hair &amp; Beauty</td><td>84 William St</td></tr>
+      <tr><td>Hair Pacific</td><td>6 Clarence St</td></tr>
+      <tr><td>Lemondrops Hair</td><td>Marina Shopping Centre</td></tr>
+      <tr><td>PJAYZ Barber Shop</td><td>9/109 William St</td></tr>
+      <tr><td>Zella Beauty</td><td>25 Calwalla Cres</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- HEALTH -->
+<section id="health">
+  <h2>Health Care &amp; Wellbeing</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Access Wheelchairs</td><td>41 Wyandra Cres</td></tr>
+      <tr><td>Coast and Country Primary Care</td><td class="muted">—</td></tr>
+      <tr><td>Flynns Beach Medical</td><td>54 Pacific Dr / 66 Lord St</td></tr>
+      <tr><td>Fulvic Acid Australia</td><td class="muted">—</td></tr>
+      <tr><td>Just Better Care Mid North Coast</td><td class="muted">—</td></tr>
+      <tr><td>Lake Road Pharmacy</td><td>72–80 Lake Rd (The Hermitage Centre)</td></tr>
+      <tr><td>MNC Water Filters</td><td class="muted">—</td></tr>
+      <tr><td>Omnicare Alliance Limited</td><td class="muted">—</td></tr>
+      <tr><td>Peter Hearles Pharmacy</td><td>3 Clifton Drive</td></tr>
+      <tr><td>Port Macquarie Medical and Dental Centre</td><td>1 Park St</td></tr>
+      <tr><td>Port Macquarie Orthodontics</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie Private Hospital</td><td class="muted">—</td></tr>
+      <tr><td>Port Medical Aesthetics Clinic</td><td class="muted">—</td></tr>
+      <tr><td>SBCM – Sleep Breathe Care Mobility</td><td class="muted">—</td></tr>
+      <tr><td>SkinRehab</td><td class="muted">—</td></tr>
+      <tr><td>Star Dental</td><td class="muted">—</td></tr>
+      <tr><td>TL Dental</td><td class="muted">—</td></tr>
+      <tr><td>Werin Aboriginal Corporation</td><td class="muted">—</td></tr>
+      <tr><td>Your Discount Chemist</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- HOME -->
+<section id="home">
+  <h2>Home, Garden &amp; Hardware</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>ADRA Op Shop</td><td>Unit 1/17 The Hub, Bellbowrie St</td></tr>
+      <tr><td>Amart Furniture</td><td>201 Lake Rd</td></tr>
+      <tr><td>Bunnings Port Macquarie</td><td>215 Lake Rd</td></tr>
+      <tr><td>Clark Rubber Port Macquarie</td><td>10b/160–174 Hastings River Drive</td></tr>
+      <tr><td>Dead Cheap Carpets / ACE Carpets</td><td>238 Hastings River Drive</td></tr>
+      <tr><td>Exotic Furniture &amp; Homewares</td><td>Unit 1/175 Lake Rd</td></tr>
+      <tr><td>Harvey Norman Port Macquarie</td><td>160/174 Hastings River Drive</td></tr>
+      <tr><td>Hastings Garden Centre</td><td>76–78 Hastings River Drive</td></tr>
+      <tr><td>House of Divine Cakes &amp; Supplies</td><td>22 Braemar Drive</td></tr>
+      <tr><td>Open House Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Pillow Talk Port Macquarie</td><td>Bay Park Plaza, 4 Bay St</td></tr>
+      <tr><td>Port Macquarie Produce &amp; Garden Supplies</td><td>4 Barton Cres</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- HOTELS -->
+<section id="hotels">
+  <h2>Hotels, Clubs &amp; Bars</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Altitude Nightclub</td><td class="muted">—</td></tr>
+      <tr><td>Bar Florian</td><td>Clarence St</td></tr>
+      <tr><td>Down Under Night Club</td><td class="muted">—</td></tr>
+      <tr><td>Finnian's Irish Tavern</td><td class="muted">—</td></tr>
+      <tr><td>Florence Jones</td><td class="muted">—</td></tr>
+      <tr><td>Latin Loafer</td><td class="muted">—</td></tr>
+      <tr><td>Panthers Port Macquarie</td><td>1 Bay St</td></tr>
+      <tr><td>Port City Bowling Club</td><td>4 Owen St</td></tr>
+      <tr><td>Port Macquarie Golf Club</td><td class="muted">—</td></tr>
+      <tr><td>Roxi's Night Club</td><td class="muted">—</td></tr>
+      <tr><td>Settlers Inn Hotel</td><td class="muted">—</td></tr>
+      <tr><td>Tacking Point Tavern</td><td class="muted">—</td></tr>
+      <tr><td>The Beach House</td><td class="muted">—</td></tr>
+      <tr><td>The Pier (pub/bar)</td><td class="muted">—</td></tr>
+      <tr><td>The Westport Club</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- IT -->
+<section id="it">
+  <h2>Information Technology &amp; Telecommunications</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>C3C Advisory Group</td><td class="muted">—</td></tr>
+      <tr><td>Cloud Concepts</td><td class="muted">—</td></tr>
+      <tr><td>Integer IT Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>NBN Co</td><td class="muted">—</td></tr>
+      <tr><td>PC Pitstop Business IT</td><td class="muted">—</td></tr>
+      <tr><td>Pivotal Business Systems</td><td class="muted">—</td></tr>
+      <tr><td>Telstra Shop Port Macquarie</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- MANUFACTURING -->
+<section id="manufacturing">
+  <h2>Manufacturing &amp; Industry</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>AusSport Scoreboards</td><td class="muted">—</td></tr>
+      <tr><td>Bale Defence Engineering Systems Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Birdon Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Chicken Caravan</td><td class="muted">—</td></tr>
+      <tr><td>Eastland Truss &amp; Timber Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Harold Vickery &amp; Son</td><td class="muted">—</td></tr>
+      <tr><td>Hastings Data Loggers</td><td class="muted">—</td></tr>
+      <tr><td>K &amp; D Thompson Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>On Time Blinds Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Stratco Mid North Coast</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- PETS -->
+<section id="pets">
+  <h2>Pet Supplies</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Clifton Pet &amp; Aquarium Supplies</td><td>7B Clifton Drive</td></tr>
+      <tr><td>Paradise Aquarium &amp; Pet Barn</td><td>25 Central Rd</td></tr>
+      <tr><td>Petbarn Port Macquarie</td><td>160 Hastings River Dr</td></tr>
+      <tr><td>Port Pet Warehouse</td><td>2 Blackbutt Rd</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- PROFESSIONAL -->
+<section id="professional">
+  <h2>Professional &amp; Business Services</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Abundance Human Resources Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>APM Employment Services</td><td class="muted">—</td></tr>
+      <tr><td>Boylan &amp; Associates – Recruitment Services</td><td class="muted">—</td></tr>
+      <tr><td>Business NSW</td><td class="muted">—</td></tr>
+      <tr><td>C2Hills Consultancy</td><td class="muted">—</td></tr>
+      <tr><td>Colourworks Australia</td><td class="muted">—</td></tr>
+      <tr><td>Dawson Search &amp; Selection</td><td class="muted">—</td></tr>
+      <tr><td>Donovan Oates Hannaford Lawyers</td><td class="muted">—</td></tr>
+      <tr><td>Elomou Interiors</td><td class="muted">—</td></tr>
+      <tr><td>ENV Solutions</td><td class="muted">—</td></tr>
+      <tr><td>HB Legal</td><td>104 Horton St</td></tr>
+      <tr><td>Hopkins Consultants</td><td class="muted">—</td></tr>
+      <tr><td>HR Culture Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>King &amp; Campbell</td><td class="muted">—</td></tr>
+      <tr><td>Levido Law + Property</td><td class="muted">—</td></tr>
+      <tr><td>Magnified</td><td class="muted">—</td></tr>
+      <tr><td>MBooks Business &amp; Accounting Solutions</td><td class="muted">—</td></tr>
+      <tr><td>McNeil Architects</td><td class="muted">—</td></tr>
+      <tr><td>Men and Women At Work</td><td class="muted">—</td></tr>
+      <tr><td>Morris Succession Lawyers</td><td class="muted">—</td></tr>
+      <tr><td>Pathvia Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Peninsula Australia</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie Travel Agency</td><td class="muted">—</td></tr>
+      <tr><td>Pure Property Management Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Regional Business Specialists</td><td class="muted">—</td></tr>
+      <tr><td>RSM Australia</td><td class="muted">—</td></tr>
+      <tr><td>Three Story Capital Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Wauchope Veterinary Clinic</td><td class="muted">—</td></tr>
+      <tr><td>Work Well Risk Management</td><td class="muted">—</td></tr>
+      <tr><td>Zeal Futures</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- PROPERTY -->
+<section id="property">
+  <h2>Property Development &amp; Real Estate</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Belle Property</td><td class="muted">—</td></tr>
+      <tr><td>Coastal Hire and Sales Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Coastal Realty &amp; Strata</td><td class="muted">—</td></tr>
+      <tr><td>Commercial Collective</td><td class="muted">—</td></tr>
+      <tr><td>Harcourts Greater Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>HEM Property</td><td class="muted">—</td></tr>
+      <tr><td>Hire Port</td><td class="muted">—</td></tr>
+      <tr><td>Land Dynamics Australia</td><td class="muted">—</td></tr>
+      <tr><td>Laing + Simmons</td><td class="muted">—</td></tr>
+      <tr><td>LPM – Love Project Management</td><td class="muted">—</td></tr>
+      <tr><td>Port Property Professionals</td><td class="muted">—</td></tr>
+      <tr><td>Port Shores Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Raine &amp; Horne Commercial</td><td>136 William St</td></tr>
+      <tr><td>Sovereign Hills Sales Pty Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Thrumster Business Park</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- RETAIL FASHION -->
+<section id="retail-fashion">
+  <h2>Retail – Clothing &amp; Fashion</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Charlize Rose</td><td class="muted">—</td></tr>
+      <tr><td>Dancing Fabrics – Costume Conundrum</td><td>135 Horton St</td></tr>
+      <tr><td>Emerald &amp; Me Boutique</td><td>Colonial Arcade, 25 Hay St</td></tr>
+      <tr><td>Glasshouse Shop</td><td>12–13/6–14 Clarence St</td></tr>
+      <tr><td>Gowing Bros Ltd</td><td class="muted">—</td></tr>
+      <tr><td>Haus of Alma</td><td class="muted">—</td></tr>
+      <tr><td>Lowes</td><td class="muted">—</td></tr>
+      <tr><td>Meg &amp; Me Boutique &amp; Espresso</td><td class="muted">—</td></tr>
+      <tr><td>P'Chi for Swimwear</td><td>Port Central Shopping Centre</td></tr>
+      <tr><td>Soft Edges Sportswear</td><td>13/10 Bellbowrie St</td></tr>
+      <tr><td>Taking Shape</td><td>Shop 1/41–47 Horton St</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- RETAIL GENERAL -->
+<section id="retail-general">
+  <h2>Retail – General &amp; Specialty</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>ALDI Port Macquarie</td><td>Hastings River Drive</td></tr>
+      <tr><td>Bristol Paint Shop Port Macquarie</td><td class="muted">—</td></tr>
+      <tr><td>Caltex Port Macquarie</td><td>12/14 Bolwarra Rd</td></tr>
+      <tr><td>Dales Office Choice</td><td class="muted">—</td></tr>
+      <tr><td>Float Haven</td><td class="muted">—</td></tr>
+      <tr><td>Growers Market</td><td class="muted">—</td></tr>
+      <tr><td>Harvey Norman Computers, Mobile Phones &amp; Technology</td><td class="muted">—</td></tr>
+      <tr><td>John L Fisher Plumbing Supplies</td><td class="muted">—</td></tr>
+      <tr><td>Lighthouse Plaza Newsagency</td><td>5/100 Ocean Drive</td></tr>
+      <tr><td>Lunico Candle Co.</td><td class="muted">—</td></tr>
+      <tr><td>Mathers Shoes</td><td>Settlement City Shopping Centre</td></tr>
+      <tr><td>Nature Toys</td><td>58 Lake Rd</td></tr>
+      <tr><td>Port Macquarie Hastings Rural Sales</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie Trophies &amp; Badges</td><td class="muted">—</td></tr>
+      <tr><td>Ritchies IGA</td><td class="muted">—</td></tr>
+      <tr><td>Sunset Gallery</td><td class="muted">—</td></tr>
+      <tr><td>That Leadlight Guy</td><td class="muted">—</td></tr>
+      <tr><td>The Needle and Jet</td><td>2/144 Lake Rd</td></tr>
+      <tr><td>The Witchy Nook</td><td class="muted">—</td></tr>
+      <tr><td>Touchwood Flowers</td><td class="muted">—</td></tr>
+      <tr><td>Woolworths Port Macquarie</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- OTHER -->
+<section id="other">
+  <h2>Other Services</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>BNCC Security Services</td><td class="muted">—</td></tr>
+      <tr><td>ESP Fire</td><td class="muted">—</td></tr>
+      <tr><td>Internet Cafe @ Port</td><td>13 Short St</td></tr>
+      <tr><td>JC Entertainment &amp; Events</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- REC INDOOR -->
+<section id="rec-indoor">
+  <h2>Recreation &amp; Entertainment – Indoor</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>What They Offer</th><th>Address</th><th>Website</th></tr></thead>
+    <tbody>
+      <tr><td>Centre of Gravity Indoor Adventure Centre</td><td>Rock climbing, bouldering, laser tag, canyoning</td><td>52 Jindalee Rd</td><td><a href="https://www.facebook.com/CentreOfGravityPMQ/" target="_blank" rel="noopener">Facebook</a></td></tr>
+      <tr><td>Facade Escape Room</td><td>Escape rooms</td><td class="muted">—</td><td><a href="https://facade-escape.com.au" target="_blank" rel="noopener">facade-escape.com.au</a></td></tr>
+      <tr><td>Majestic Cinemas</td><td>Cinema, arcade games</td><td class="muted">—</td><td><a href="https://www.majesticcinemas.com.au/" target="_blank" rel="noopener">majesticcinemas.com.au</a></td></tr>
+      <tr><td>Planet Skate</td><td>Roller skating, hockey, skateboarding, indoor paintball, bazooka ball, arcade, café, lessons, parties</td><td class="muted">—</td><td><a href="https://www.planetskate.com.au/" target="_blank" rel="noopener">planetskate.com.au</a></td></tr>
+      <tr><td>Port Macquarie Driving Range and Mini Golf</td><td>Driving range, mini golf</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>Wave Bowl / The Bowl Port Macquarie</td><td>12-lane ten-pin bowling, karaoke room, bar, live music</td><td>159 Hastings River Dr</td><td class="muted">—</td></tr>
+      <tr><td>X-Golf Port Macquarie</td><td>Indoor golf simulator</td><td class="muted">—</td><td><a href="https://www.xgolf.com.au/locations/port-macquarie-nsw/" target="_blank" rel="noopener">xgolf.com.au</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- REC OUTDOOR -->
+<section id="rec-outdoor">
+  <h2>Recreation &amp; Entertainment – Outdoor &amp; Nature</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>What They Offer</th><th>Address</th><th>Website</th></tr></thead>
+    <tbody>
+      <tr><td>Always Able Travel</td><td>Accessible tourism</td><td class="muted">—</td><td><a href="https://www.alwaysabletravel.com.au/" target="_blank" rel="noopener">alwaysabletravel.com.au</a></td></tr>
+      <tr><td>Billabong Zoo Koala &amp; Wildlife Park</td><td>Zoo with koalas, snow leopards, red pandas, meerkats, penguins, croc "Shrek", daily shows &amp; encounters</td><td class="muted">—</td><td><a href="https://www.billabongzoo.com.au/" target="_blank" rel="noopener">billabongzoo.com.au</a></td></tr>
+      <tr><td>Hello Koalas</td><td>Koala sculpture trail, wildlife tourism</td><td class="muted">—</td><td><a href="https://www.hellokoalas.com" target="_blank" rel="noopener">hellokoalas.com</a></td></tr>
+      <tr><td>Port AdVenture Cruises</td><td>Dolphin spotting, sunset river cruises</td><td class="muted">—</td><td><a href="https://www.portadventurecruises.com.au" target="_blank" rel="noopener">portadventurecruises.com.au</a></td></tr>
+      <tr><td>Port Jet Cruise Adventures</td><td>Whale watching (May–Nov), jet ski hire, river cruises, ocean blast rides</td><td class="muted">—</td><td><a href="https://portjet.com.au/" target="_blank" rel="noopener">portjet.com.au</a></td></tr>
+      <tr><td>Port Macquarie Horse Riding Centre</td><td>Horse riding for all levels</td><td class="muted">—</td><td><a href="https://www.portmacquariehorseriding.com.au/" target="_blank" rel="noopener">portmacquariehorseriding.com.au</a></td></tr>
+      <tr><td>Port Macquarie Koala Hospital</td><td>World's first koala-only hospital, free entry, feed &amp; talk at 3pm daily, adopt-a-koala</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie Surf School</td><td>Surfing lessons, all levels, group &amp; private</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>Positive Energy Adventures &amp; Retreats</td><td>Wellness retreats, adventure activities</td><td class="muted">—</td><td><a href="http://www.positiveenergyretreats.com.au" target="_blank" rel="noopener">positiveenergyretreats.com.au</a></td></tr>
+      <tr><td>Scuba Haven</td><td>Scuba diving and snorkelling tours</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>Sea Acres Rainforest Centre</td><td>1.3km elevated rainforest boardwalk, guided tours, café</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>Settlement Point Boatshed</td><td>Boat hire, SUP, kayak, canoe, BBQ boats, banquet boat</td><td class="muted">—</td><td><a href="https://portmacquarieboathire.com.au/" target="_blank" rel="noopener">portmacquarieboathire.com.au</a></td></tr>
+      <tr><td>Splash Kayaking Group</td><td>Guided kayak tours and lessons, all skill levels</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>Stoney Park Watersports &amp; Recreation</td><td>Water-skiing, jet-skiing, powered sites</td><td class="muted">—</td><td><a href="https://www.stoneypark.com.au/" target="_blank" rel="noopener">stoneypark.com.au</a></td></tr>
+      <tr><td>USM Events / IRONMAN Australia</td><td>Annual triathlon event</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>WildNets Adventure Park</td><td>Australia's biggest suspended net playground, treetop ropes course, ziplines, 100+ challenges</td><td>Cowarra State Forest</td><td><a href="https://wildnets.com.au/port-macquarie/" target="_blank" rel="noopener">wildnets.com.au</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- REC ARTS -->
+<section id="rec-arts">
+  <h2>Recreation &amp; Entertainment – Arts &amp; Culture</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>What They Offer</th><th>Address</th><th>Website</th></tr></thead>
+    <tbody>
+      <tr><td>Glasshouse Regional Gallery</td><td>Contemporary, indigenous &amp; historical art exhibitions, workshops</td><td>6–14 Clarence St</td><td><a href="https://www.glasshouse.org.au/Gallery" target="_blank" rel="noopener">glasshouse.org.au</a></td></tr>
+      <tr><td>Luminance Art Gallery</td><td>Original artwork by Mid North Coast artists, indigenous &amp; contemporary</td><td class="muted">—</td><td class="muted">—</td></tr>
+      <tr><td>The Glasshouse</td><td>588-seat theatre, studio space, gallery, visitor info centre, conference facilities</td><td>6–14 Clarence St</td><td><a href="https://www.glasshouse.org.au" target="_blank" rel="noopener">glasshouse.org.au</a></td></tr>
+      <tr><td>Ultragrafik Gallery</td><td>Art gallery near Glasshouse and Port Central</td><td class="muted">—</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- REC DANCE -->
+<section id="rec-dance">
+  <h2>Recreation &amp; Entertainment – Dance &amp; Performing Arts</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>What They Offer</th><th>Website</th></tr></thead>
+    <tbody>
+      <tr><td>ExtravaDance Studios</td><td>Ballet, contemporary, jazz, tap, acrobatic arts, hip hop — all ages, Port Macquarie &amp; Wauchope</td><td><a href="https://www.extravadancestudios.com.au/" target="_blank" rel="noopener">extravadancestudios.com.au</a></td></tr>
+      <tr><td>Extreme Dance Studios</td><td>Professional dance instruction, all ages and levels</td><td><a href="https://extremedancestudios.com.au/" target="_blank" rel="noopener">extremedancestudios.com.au</a></td></tr>
+      <tr><td>La Vive Studios</td><td>Dance, singing, acting and musical training — 35+ years in Port Macquarie</td><td><a href="https://www.lavivestudios.com.au/" target="_blank" rel="noopener">lavivestudios.com.au</a></td></tr>
+      <tr><td>Port Dance Studio</td><td>Dance classes for all ages</td><td><a href="https://www.portdancestudio.com.au/" target="_blank" rel="noopener">portdancestudio.com.au</a></td></tr>
+      <tr><td>Port Macquarie Performing Arts</td><td>Ballet, jazz, tap, musical theatre, hip hop, contemporary — toddlers to adults</td><td><a href="https://pmperformingarts.com/" target="_blank" rel="noopener">pmperformingarts.com</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- REC SPORT -->
+<section id="rec-sport">
+  <h2>Recreation &amp; Entertainment – Sport &amp; Fitness Clubs</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>What They Offer</th><th>Website</th></tr></thead>
+    <tbody>
+      <tr><td>Anytime Fitness</td><td>24/7 gym</td><td><a href="https://www.anytimefitness.com.au" target="_blank" rel="noopener">anytimefitness.com.au</a></td></tr>
+      <tr><td>Challenge Fitness</td><td>Gym</td><td class="muted">—</td></tr>
+      <tr><td>Genesis Fitness</td><td>Personal training, group fitness, swim school, yoga</td><td><a href="https://www.genesisfitness.com.au/gym/nsw/port-macquarie" target="_blank" rel="noopener">genesisfitness.com.au</a></td></tr>
+      <tr><td>Panthers Port Macquarie</td><td>Sports club, 2 restaurants, café, 3 bars, open until 3am</td><td><a href="http://www.panthers.com.au" target="_blank" rel="noopener">panthers.com.au</a></td></tr>
+      <tr><td>PCYC Port Macquarie</td><td>Gym, fitness programs, youth activities</td><td><a href="https://www.pcycnsw.org.au/port-macquarie/" target="_blank" rel="noopener">pcycnsw.org.au</a></td></tr>
+      <tr><td>Port City Bowling Club</td><td>Lawn bowls, barefoot bowls, dining, live entertainment</td><td><a href="http://www.portcity.com.au" target="_blank" rel="noopener">portcity.com.au</a></td></tr>
+      <tr><td>Port Macquarie Golf Club</td><td>18-hole golf course</td><td><a href="http://www.portmacquariegolf.com.au" target="_blank" rel="noopener">portmacquariegolf.com.au</a></td></tr>
+      <tr><td>The Westport Club</td><td>Lawn bowls, barefoot bowls, events, restaurant</td><td><a href="http://www.thewestportclub.com.au" target="_blank" rel="noopener">thewestportclub.com.au</a></td></tr>
+      <tr><td>World Gym Port Macquarie</td><td>Gym, Pilates, Yoga, HIIT, group fitness</td><td><a href="https://www.worldgym.com.au/gyms/port-macquarie" target="_blank" rel="noopener">worldgym.com.au</a></td></tr>
+      <tr><td>Your Life 24 Hour Fitness Centre</td><td>24/7 gym</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- TRANSPORT -->
+<section id="transport">
+  <h2>Transport &amp; Logistics</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Business</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Linked Community Services</td><td class="muted">—</td></tr>
+      <tr><td>Port Bus Charters, Tours and Rentals</td><td class="muted">—</td></tr>
+      <tr><td>Port Macquarie Taxis</td><td class="muted">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+</div><!-- .page-wrap -->
+</main>
+
+<footer>
+  <div class="page-wrap">
+    Sources: Business Port Macquarie Members Directory · Yellow Pages · Google · Wanderlog · Aussiestoresonline · Visit NSW &mdash; Last updated June 2026
+  </div>
+</footer>
+
+<button id="btt" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  const btt = document.getElementById('btt');
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+</script>
+
+</body>
+</html>
